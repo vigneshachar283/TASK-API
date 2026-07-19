@@ -4,28 +4,13 @@ const router=express.Router();
 
 const Task =require("./../models/Task")
 
-router.get("/tasks",async (req,res)=>
-{
-    try{
-     let task = await Task.find();
+const {getalltasks,createtask}=require("./../controllers/taskController")
 
-     res.json(task);
-    }
-    catch(err){
-        res.status(500).send("error in fetching tasks");
-    }
-})
 
-router.post("/tasks",async (req,res)=>{
-    const newtask= new Task(req.body);
-    try{
-   await newtask.save();
-   res.status(201).send("task added successfully");
-}
-   catch(err){
-    res.status(500).send("error in adding task");}
+router.get("/", getalltasks)
 
-})
+
+router.post("/",createtask);
 
 
 router.get("/tasks/:id",async (req,res)=>{
