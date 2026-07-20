@@ -3,7 +3,10 @@ const Task=require("./../models/Task")
 const getalltasks=async(req,res)=>{
     
         try{
-         let task = await Task.find();
+         let task = await Task.find({
+            owner:req.user.id 
+         }
+         );
     
          res.json(task);
         }
@@ -13,7 +16,11 @@ const getalltasks=async(req,res)=>{
     }
 
 const createtask=async (req,res)=>{
-   const newtask= new Task(req.body);
+   const newtask= new Task({
+    title:req.body.title,
+    owner:req.user.id 
+
+   })
     try{
    await newtask.save();
    res.status(201).send("task added successfully");
